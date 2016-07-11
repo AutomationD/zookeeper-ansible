@@ -1,0 +1,18 @@
+---
+
+apache_mirror: mirror.symnds.com/software/Apache
+zookeeper_client_port: 2181
+zookeeper_hosts: "{{ansible_fqdn}}:{{ zookeeper_client_port }}"
+zookeeper_version: 3.4.8
+zookeeper_user: zookeeper
+zookeeper_group: zookeeper
+zookeeper_parent_dir: /opt
+zookeeper_dir: "{{ zookeeper_parent_dir }}/zookeeper"
+zookeeper_conf_dir: "{{ zookeeper_dir }}/conf"
+zookeeper_log_dir: "{{ zookeeper_dir }}/log"
+zookeeper_data_dir: "{{ zookeeper_dir }}/data"
+zookeeper_maxClientCnxns: 50
+jre_package: openjdk-8-jre-headless
+docker: False
+#data_disks_devices: ['xvde']
+zookeeper_id: 1

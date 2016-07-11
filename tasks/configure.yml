@@ -1,0 +1,43 @@
+---
+
+- name: Install ZooKeeper supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    mode: 0644
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers
+
+- name: Configure ZooKeeper server
+  template:
+    src: zoo.cfg.j2
+    dest: "{{zookeeper_conf_dir}}/zoo.cfg"
+  notify: restart zookeeper
+
+- name: Configure myid
+  template:
+    src: myid.j2
+    dest: "{{ zookeeper_data_dir }}/myid"
+  notify: restart zookeeper
+
+- name: Upload log4j config
+  template:
+    src: log4j.properties.j2
+    dest: "{{ zookeeper_conf_dir }}/log4j.properties"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart zookeeper
+
+- meta: flush_handlers
+
+
+- name: Make sure ZooKeeper is running
+  supervisorctl:
+    name: zookeeper
+    state: started
+
+
+

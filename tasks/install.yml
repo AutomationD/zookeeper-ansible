@@ -1,0 +1,76 @@
+---
+
+- name: Install JRE
+  package:
+    name: "{{ jre_package }}"
+
+- name: Install Supervisor
+  package:
+    name: supervisor
+
+- name: Start supervisor service
+  service:
+    name: supervisor
+    state: started
+
+- name: Add group
+  group:
+    name: "{{ zookeeper_group }}"
+    system: yes
+
+- name: Add user
+  user:
+    name: "{{ zookeeper_group }}"
+    group: "{{ zookeeper_group }}"
+    home: /home/zookeeper
+    shell: "/sbin/nologin"
+    system: yes
+
+- name: Download the tarball
+  get_url:
+    url: "http://{{ apache_mirror }}/zookeeper/stable/zookeeper-{{ zookeeper_version }}.tar.gz"
+    dest: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+
+- name: Extract the tarball
+  unarchive:
+    src: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+    dest: "{{ zookeeper_parent_dir }}"
+    copy: no
+    creates: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}"
+
+- name: Symlink install directory
+  file:
+    src: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}"
+    dest: "{{ zookeeper_dir }}"
+    state: link
+
+- name: Set permissions to Zookeeper folder
+  file:
+    path: "{{ zookeeper_dir }}/"
+    owner: root
+    group: root
+    recurse: yes
+
+
+- name: Create Zookeeper data directory
+  file:
+    path: "{{ zookeeper_data_dir }}/"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    state: directory
+
+- name: Create Zookeeper log directory
+  file:
+    path: "{{ zookeeper_log_dir }}/"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+
+- name: Create Zookeeper conf directory
+  file:
+    path: "{{ zookeeper_conf_dir }}/"
+    state: directory
+    owner: root
+    group: root
+    mode: 755
+

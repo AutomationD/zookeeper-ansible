@@ -1,0 +1,36 @@
+[unix_http_server]
+file=/var/run/supervisor.sock                       ; path to your socket file
+
+;[inet_http_server]
+;port=9001
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///var/run/supervisor.sock
+
+[supervisord]
+nodaemon=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/supervisord.log
+logfile_maxbytes=20MB
+logfile_backups=10
+
+
+
+[program:zookeeper]
+command={{ zookeeper_dir }}/bin/zkServer.sh start-foreground
+autostart=true
+autostart=true
+autorestart=true
+redirect_stderr=true
+stopwaitsecs=2
+stdout_logfile=/var/log/supervisor/zookeeper.log
+logfile_maxbytes=20MB
+logfile_backups=10
+stopsignal=KILL
+
+
+[include]
+files = /etc/supervisor/conf.d/*.conf
