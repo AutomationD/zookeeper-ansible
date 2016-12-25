@@ -28,7 +28,7 @@
 
 - name: Download the tarball
   get_url:
-    url: "http://{{ apache_mirror }}/zookeeper/stable/zookeeper-{{ zookeeper_version }}.tar.gz"
+    url: "http://{{ apache_mirror }}/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
     dest: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}.tar.gz"
 
 - name: Extract the tarball
