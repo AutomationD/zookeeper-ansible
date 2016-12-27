@@ -14,20 +14,24 @@
   template:
     src: zoo.cfg.j2
     dest: "{{zookeeper_conf_dir}}/zoo.cfg"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
   notify: restart zookeeper
 
 - name: Configure myid
   template:
     src: myid.j2
     dest: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
   notify: restart zookeeper
 
 - name: Upload log4j config
   template:
     src: log4j.properties.j2
     dest: "{{ zookeeper_conf_dir }}/log4j.properties"
-    owner: root
-    group: root
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
     mode: 0644
   notify: restart zookeeper
 
