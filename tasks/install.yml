@@ -35,6 +35,8 @@
   unarchive:
     src: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}.tar.gz"
     dest: "{{ zookeeper_parent_dir }}"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
     copy: no
     creates: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}"
 
@@ -43,14 +45,6 @@
     src: "{{ zookeeper_parent_dir }}/zookeeper-{{ zookeeper_version }}"
     dest: "{{ zookeeper_dir }}"
     state: link
-
-- name: Set permissions to Zookeeper folder
-  file:
-    path: "{{ zookeeper_dir }}/"
-    owner: "{{ zookeeper_user }}"
-    group: "{{ zookeeper_group }}"
-    recurse: yes
-
 
 - name: Create Zookeeper data directory
   file:
