@@ -20,7 +20,7 @@
 
 - name: Add user
   user:
-    name: "{{ zookeeper_group }}"
+    name: "{{ zookeeper_user }}"
     group: "{{ zookeeper_group }}"
     home: /home/zookeeper
     shell: "/sbin/nologin"
@@ -47,8 +47,8 @@
 - name: Set permissions to Zookeeper folder
   file:
     path: "{{ zookeeper_dir }}/"
-    owner: root
-    group: root
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
     recurse: yes
 
 
