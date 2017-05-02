@@ -21,7 +21,7 @@ logfile_backups=10
 
 [program:zookeeper]
 environment=
-    JVMFLAGS="{{ zookeeper_java_opts }} -Xmx{{ hivemq_heap }}m -Xms{{ hivemq_heap }}m",
+    JVMFLAGS="{{ zookeeper_java_opts }} -Xmx{{ zookeeper_heap }}m -Xms{{ zookeeper_heap }}m",
     JMXPORT="{{ zookeeper_jmx_port }}"
 command={{ zookeeper_dir }}/bin/zkServer.sh start-foreground
 autostart=true
